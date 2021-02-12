@@ -1,0 +1,81 @@
+{% extends 'base/base.html' %}
+
+{% block content%}
+<div class="container py-4 my-4">
+  <div class="row">
+    <div class="col-md-12">
+      <a type="button" class="btn btn-warning" href="/user/login">Customer</a>
+    </div>
+
+    {% if messages %}
+      {% for messsage in messages %}
+        {% if messsage.tags == 'info' %}
+          <div class="alert alert-primary my-2 px-4 text-center" role="alert">{{messsage}}</div>
+        {% endif %}
+        {% if messsage.tags == 'warning' %}
+          <div class="alert alert-danger my-2 px-4 text-center" role="alert">{{messsage}}</div>
+        {% endif %}
+      <br>
+      {% endfor %}
+    {% endif %}
+
+    <div class="col-md-12">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="signup bg-dark text-light rounded my-2 p-4">
+              <h2 class="text-center">Sign up for Business</h2>
+              <form enctype="multipart/form-data" action="/manager/signup1" method="POST">
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                      <input type="text" class="form-control" id="username" name="username" placeholder="Set Username" required>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Set Password" required>
+                    </div>
+                    <div class="form-group col-md-12">
+                      <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email ID" required>
+                    </div>
+                    <div class="form-group col-md-12">
+                      <input type="text" class="form-control" id="phone" name="phone_no" placeholder="Enter Phone Number" required>
+                    </div>
+                    <div class="form-group col-md-12">
+                      <textarea id="textarea1" class="form-control" data-length="200" name="address" rows="2" placeholder="Enter Address" required></textarea>
+                    </div>
+                    <div class="form-group col-md-12">
+                      <label>Upload Image</label>
+                      <input type="file" class="form-control" id="profile_pic" name="profile_pic" placeholder="Upload Image" required>
+                    </div>
+                    <div class="text-center">
+                        <input type="submit" value="Signup" name="submit" class="btn btn-warning">
+                    </div>
+                </div>
+            </form>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="login bg-dark text-light rounded my-2 p-4">
+              <h2 class="text-center">Login as Seller</h2>
+              <form action="/manager/login1" method="POST">
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" required>
+                    </div>
+                    <div class="text-center">
+                        <input type="submit" value="Login" name="submit" class="btn btn-warning">
+                    </div>
+                </div>
+            </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{%endblock%}

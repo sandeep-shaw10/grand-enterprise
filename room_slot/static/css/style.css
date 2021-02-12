@@ -1,0 +1,36 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.carousel-img{
+    width: 100% !important;
+    height: 60vw !important;
+}
+
+.template{
+    position: relative;
+    top:-100px;
+}
+
+@media only screen and (max-width: 600px) {
+    .book-now-h1 {
+      font-size: 25px;
+    }
+}
+
+@media only screen and (min-width: 772px) {
+    .intro-img {
+        position: absolute !important;
+        top: 15vw !important;
+        left: 0px !important;
+        right:  0px !important;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .carousel-img{
+        height: 50vw !important;
+    }
+}

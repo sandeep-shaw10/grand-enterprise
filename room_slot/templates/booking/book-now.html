@@ -1,0 +1,52 @@
+{% extends 'base/base.html'%}
+
+{% load static %}
+
+{% block content %}
+<div class="container p-2 my-4">
+  <div class="row">
+    <h1 class="py-4 text-center">Final Step : Confirmation</h1>
+    <div class="container">
+      {% if category == "room" %}
+      <div class="row">
+        <div class="col-md-6">
+          <img class="img-fluid" src="{{data.room_image.url}}">
+        </div>
+        <div class="col-md-6">
+          <h1>Hotel Name</h1>
+          <h4>Category : {{data.room_type}}</h4>
+          <p style="text-transform: capitalize;">Manger : {{roomManager}}</p> 
+          <p>Contact Number, Address</p>
+          <hr>
+          <p><b>Stay Duration:</b> {{start}} <i>to</i> {{end}}</p>
+          <p><b>Room No: </b> {{data.room_no}}</p>
+          <p><b>Total Bill: </b> {{no_of_days}}*{{data.price}} =  &#x20b9; {{bill}}</p>
+          <div>
+            <a href="/confirm-now-booking" class="btn btn-warning">Confirm Booking</a>
+          </div>
+        </div>
+      </div>
+      {% else %}
+      <div class="row">
+        <div class="col-md-6">
+          <img class="img-fluid" src="{{data.apartment_image.url}}">
+        </div>
+        <div class="col-md-6">
+          <h1>Apartment Name</h1>
+          <h4>Category : {{data.apartment_type}}</h4>
+          <p style="text-transform: capitalize;">Manger : {{apartmentManager}}</p> 
+          <p>Contact Number, Address</p>
+          <hr>
+          <p><b>Stay Duration:</b> {{start}} <i>to</i> {{end}}</p>
+          <p><b>apartment No: </b> {{data.apartment_no}}</p>
+          <p><b>Total Bill: </b> {{no_of_days}}*{{data.price}} =  &#x20b9; {{bill}}</p>
+          <div>
+            <a href="/confirm-now-booking" class="btn btn-warning">Confirm Booking</a>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

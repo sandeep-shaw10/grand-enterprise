@@ -1,0 +1,43 @@
+{% extends 'base/base.html'%}
+{% block content%}
+
+<div class="container">
+{% if messages %}
+  {% for messsage in messages %}
+    {% if messsage.tags == 'info' %}
+      <div class='chip green white-text'>{{messsage}}</div>
+    {% endif %}
+    {% if messsage.tags == 'warning' %}
+      <div class='chip red white-text'>{{messsage}}</div>
+    {% endif %}
+    <br>
+  {% endfor %}
+{% endif %}
+</div>
+
+<div class="container py-4 my-4 bg-dark text-light rounded">
+  <h1 class="text-center py-4"><b>Updating the Data for Room No: </b>{{room.room_no}}</h1>
+  <div class="row">
+      <div class="col-md-8 mx-auto">
+          <form action="/contact-us" method="POST">
+              {% csrf_token %}
+              <div class="form-row">
+                  <div class="form-group col-md-12">
+                      <label for="price">New Price</label>
+                      <input type="text" class="form-control" id="price" name="price"  value="{{room.price}}">
+                  </div>
+                  <div class="form-group col-md-12">
+                      <label for="no_of_days_advance">No of days in advance</label>
+                      <input type="text" class="form-control" id="no_of_days_advance" name="no_of_days_advance" value="{{room.no_of_days_advance}}">
+                  </div>
+                  <div class="text-center my-4">
+                      <input type="submit" name="submit" class="btn btn-warning btn-lg" value="Update Room">
+                  </div>
+                  
+              </div>
+          </form>
+      </div>
+  </div>
+</div>
+
+{% endblock %}

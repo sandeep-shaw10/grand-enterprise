@@ -1,0 +1,38 @@
+{% extends 'base/base.html'%}
+{% block content%}
+
+{% if message%}
+<div class="alert alert-dark" role="alert">
+    <p class="text-light">{{message}}</p>
+</div>
+{%endif%}
+
+<div class="container py-4 my-4 bg-dark text-light rounded">
+    <h1 class="text-center">GET IN TOUCH</h1>
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <form action="/contact-us" method="POST">
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="username">Full Name</label>
+                        <input type="text" class="form-control" id="username" name="name" required>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="email">Email ID</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="email">Message</label>
+                        <textarea id="textarea1" class="form-control" name="message" rows="10" required></textarea>
+                    </div>
+                    <div class="text-center">
+                        <input type="submit" value="submit" name="submit" class="btn btn-warning">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{%endblock%}

@@ -1,0 +1,116 @@
+{% extends 'base/base.html'%}
+
+{% block content%}
+
+{% if messages %}
+  {% for messsage in messages %}
+    {% if messsage.tags == 'info' %}
+      <div class="alert alert-primary my-2 px-4 text-center" role="alert">{{messsage}}</div>
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+<div class="container py-2 my-2">
+  <div class="row">
+    <div class="col-12 my-3">
+      <a href="/" class="btn btn-success">Book More Rooms / Apartment</a>
+    </div>
+    <div class="col-md-6 text-center">
+      <div class="bg-warning rounded py-3 my-2">
+        <h4>No of active room booking</h4>
+        <h2>{{ available }}</h2>  
+      </div>
+    </div>
+    <div class="col-md-6 text-center">
+      <div class="bg-warning rounded py-3 my-2">
+        <h4>Rooms booked in past</h4>
+        <h2>{{ count }}</h2>          
+      </div>
+    </div>
+    <div class="col-md-6 text-center">
+      <div class="bg-warning rounded py-3 my-2">
+        <h4>No of active Apartment booking</h4>
+        <h2>---</h2>  
+      </div>
+    </div>
+    <div class="col-md-6 text-center">
+      <div class="bg-warning rounded py-3 my-2">
+        <h4>Apartment booked in past</h4>
+        <h2>---</h2>          
+      </div>
+    </div>
+    <div class="col-md-12 my-4">
+      <div class="booking-history">
+        <h1>Booking History</h1>
+        {% if  data %}
+          <div class="table-wrap">
+            <table class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">Booking ID</th>
+                  <th scope="col">Booked On</th>
+                  <th scope="col">Start Date</th>
+                  <th scope="col">End Date</th>
+                  <th scope="col">Billing</th>
+                  <th scope="col">Room Manager</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                  {% for d in data %}
+                    <tr>
+                      <td scope="col" class="small">{{d.id}}</td>
+                      <td scope="col" class="small">{{d.booked_on}}</td>
+                      <td scope="col" class="small">{{d.start_day}}</td>
+                      <td scope="col" class="small">{{d.end_day}}</td>
+                      <td scope="col" class="small">&#x20b9; {{d.amount}}</td>
+                      <td scope="col" class="small">{{d.room_no.manager.username}}</td>
+                      {% if d.is_past_due %}
+                        <td scope="col" class="small">
+                          <a class="btn btn-secondary btn-sm" disabled>Cancel</a>
+                        </td>
+                      {% else %}
+                        <td scope="col" class="small text-light">
+                          <a class="btn btn-danger btn-sm cancel-btn" id="{{d.id}}">Cancel</a>
+                        </td>
+                      {% endif %}
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {% else %}
+          <div class="jumbotron">
+            <p class="lead">Sorry You haven't booked any room so far.</p>
+            <hr class="my-4">
+            <p class="lead">
+              <a class="btn btn-dark" href="/" role="button">Book Here</a>
+            </p>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  cancel_btn=document.querySelectorAll(".cancel-btn")
+  cancel_btn.forEach((data)=>{
+  data.addEventListener("click",(e)=>{ 
+    e.preventDefault()
+    id=e.target.id
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        console.log(xhttp.responseText)
+        document.getElementById("message").innerHTML = "<div class='chip green white-text'>"+xhttp.responseText+"</div>";
+    window.setTimeout(function(){location.reload()},1000)
+  }
+  };
+  xhttp.open("GET", "/cancel-room/"+id, true);
+  xhttp.send();
+  })
+  })
+</script>
+{% endblock %}

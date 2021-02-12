@@ -1,0 +1,66 @@
+{% extends 'base/base.html'%}
+{% load static %}
+{% block content %}
+<div class="container my-2 py-2 mx-auto text-center">
+    <div class="row">
+        {% if data %}
+            <h1 class="text-center p-2 my-2">One more step to go...</h1>
+            <div class="col-md-12">
+                <div class="container">
+                    <div class="row">
+                        {% for  room in  data %}
+                        <div class="col-lg-4 mb-4">
+                            <div class="card">
+                              <img src="{{room.room_image.url}}" alt="" class="card-img-top">
+                              <div class="card-body text-light bg-dark">
+                                <h5 class="card-title">{{room.room_type}}</h5>
+                                <span class="card-text">&#x20b9; {{room.price}}</span>
+                                <strike><small class="card-text">&#x20b9; {{room.price}}</small></strike>
+                                <br>
+                               <a href="/book-now/room/{{room.room_no}}" class="btn btn-success btn-sm m-2">Book Now </a>
+                              </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% elif data1 %}
+        <h1 class="text-center p-2 my-2">One more step to go...</h1>
+        <div class="col-md-12">
+            <div class="container">
+                <div class="row">
+                    {% for  apartment in  data1 %}
+                    <div class="col-lg-4 mb-4">
+                        <div class="card">
+                          <img src="{{apartment.apartment_image.url}}" alt="" class="card-img-top">
+                          <div class="card-body text-light bg-dark">
+                            <h5 class="card-title">{{apartment.apartment_type}}</h5>
+                            <span class="card-text">&#x20b9; {{apartment.price}}</span>
+                            <strike><small class="card-text">&#x20b9; {{apartment.price}}</small></strike>
+                            <br>
+                           <a href="/book-now/apartment/{{apartment.apartment_no}}" class="btn btn-success btn-sm m-2">Book Now </a>
+                          </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>        
+        {% else %}
+        <div class="container my-4 py-4">
+            <div class="row">
+                <div class="jumbotron mx-auto">
+                    <h1 class="display-4"> <i class="fa fa-frown-o"></i> </h1>
+                    <p class="lead">Sorry No Slot available for the given days.</p>
+                    <hr class="my-4">
+                    <p class="lead">
+                      <a class="btn btn-primary btn-lg" href="{% url 'index' %}" role="button">Select other days </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
