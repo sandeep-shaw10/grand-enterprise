@@ -1,5 +1,6 @@
 from django.db import models
 from PIL import Image
+
 class Customer(models.Model):
     username=models.CharField(max_length=100)
     password=models.CharField(max_length=100)
@@ -9,6 +10,7 @@ class Customer(models.Model):
     address=models.TextField()
     def __str__(self):
         return "Customer: "+self.username
+
 class RoomManager(models.Model):
     username=models.CharField(max_length=100)
     password=models.CharField(max_length=100)

@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from .models import Contact
-from .models import Rooms,Booking,Apartment
+from .models import Rooms,Booking,Apartment,BookingApartment
 from login.models import Customer
 from django.contrib import messages
 from django.http import HttpResponse
@@ -84,6 +84,25 @@ def book_confirm(request):
     del request.session['bill']
     del request.session['room_no']
     messages.info(request,"Room has been successfully booked")
+    return redirect('user_dashboard')
+
+def book_confirm1(request):
+    apartment_no=request.session['apartment_no']
+    start_date=request.session['start_date']
+    end_date=request.session['end_date']
+    username=request.session['username']
+    user_id=Customer.objects.get(username=username)
+    room=Apartment.objects.get(apartment_no=apartment_no)
+    amount=request.session['bill']
+    data=BookingApartment(apartment_no=room,start_day=start_date,end_day=end_date,amount=amount,user_id=user_id)
+    data.save()
+    room.is_available=False
+    room.save()
+    del request.session['start_date']
+    del request.session['end_date']
+    del request.session['bill']
+    del request.session['apartment_no']
+    messages.info(request,"Apartment has been successfully booked")
     return redirect('user_dashboard')
 
 def cancel_room(request,id):

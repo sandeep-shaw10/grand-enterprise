@@ -14,8 +14,11 @@
 
 <div class="container py-2 my-2">
   <div class="row">
-    <div class="col-12 my-3">
+    <div class="col-6 my-3">
       <a href="/user/add-room/new" class="btn btn-success"><i class="fa fa-plus"></i> Add Room  </a>
+    </div>
+        <div class="col-6 my-3">
+      <a href="/user/add-room/new1" class="btn btn-success"><i class="fa fa-plus"></i> Add Apartment  </a>
     </div>
     <div class="col-md-6 text-center">
       <div class="bg-warning rounded py-3 my-2">
@@ -41,6 +44,7 @@
         <h2>---</h2>          
       </div>
     </div>
+    <!--Room Status-->
     <div class="col-md-12 my-4">
       <div class="booking-history">
         <h1>Room Status</h1>
@@ -51,6 +55,60 @@
                 <tr>
                   <th scope="col">Room No</th>
                   <th scope="col">Room Type</th>
+                  <th scope="col">Price</th>
+                  <th scope="col">Customer Name</th>
+                  <th scope="col">Booked On</th>
+                  <th scope="col">Booking Data</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {% for room in room_data%}
+                <tr>
+                  <td class="small" >{{room.room_no}}</td>
+                  <td class="small" >{{room.room_type}}</td>
+                  <td class="small" >&#x20b9; {{room.price}}</td>
+                  {% with data=room.booking_set.all.0 %}
+                  <td class="small" ><a href="/user/dashboard/details/{{data.user_id.id}}/{{data.id}}">{{data.user_id.username}}</a></td>
+                  <td class="small" >{{data.booked_on}}</th>
+                  <td class="small" >
+                  {% if  room.is_available%}
+                  Available
+                  {% else %}
+                  {{data.start_day}} to {{data.end_day}}
+                  {% endif %}
+                  </td>
+                  <td class="small" >
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                      <a class="btn btn-primary btn-sm" href="{% url 'update-room' room.room_no %}">Edit</a>
+                      <a class="btn btn-danger text-light cancel-btn btn-sm" href="" id="{{room.id}}">Delete</a>
+                    </div>
+                  </td>
+                {% endwith %}
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {% else %}
+          <div class="jumbotron">
+            <p class="lead">You don't have any room added </p>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+    <!--Apartment Status-->
+        <div class="col-md-12 my-4">
+      <div class="booking-history">
+        <h1>Apartment Status</h1>
+        {% if room_data %}
+          <div class="table-wrap">
+            <table class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">Apartment No</th>
+                  <th scope="col">Apartment Type</th>
                   <th scope="col">Price</th>
                   <th scope="col">Customer Name</th>
                   <th scope="col">Booked On</th>

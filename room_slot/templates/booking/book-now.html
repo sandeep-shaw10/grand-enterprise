@@ -22,7 +22,7 @@
           <p><b>Room No: </b> {{data.room_no}}</p>
           <p><b>Total Bill: </b> {{no_of_days}}*{{data.price}} =  &#x20b9; {{bill}}</p>
           <div>
-            <a href="/confirm-now-booking" class="btn btn-warning">Confirm Booking</a>
+            <a href="{% url 'book_confirm' %}" class="btn btn-warning">Confirm Booking</a>
           </div>
         </div>
       </div>
@@ -41,7 +41,7 @@
           <p><b>apartment No: </b> {{data.apartment_no}}</p>
           <p><b>Total Bill: </b> {{no_of_days}}*{{data.price}} =  &#x20b9; {{bill}}</p>
           <div>
-            <a href="/confirm-now-booking" class="btn btn-warning">Confirm Booking</a>
+            <a href="{% url 'book_confirm1' %}" class="btn btn-warning">Confirm Booking</a>
           </div>
         </div>
       </div>
