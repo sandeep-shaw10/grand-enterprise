@@ -14,9 +14,16 @@ def dashboard(request):
       username=request.session['username']
       data=RoomManager.objects.get(username=username)
       room_data=data.rooms_set.all()
+      apartment_data=data.apartment_set.all()
       booked=room_data.filter(is_available=False).count()
+      booked1=apartment_data.filter(is_available=False).count()
       print(booked)
-      return render(request,"manager_dash/index.html",{"room_data":room_data,"manager":data,"booked":booked})
+      return render(request,"manager_dash/index.html",{"room_data":room_data,
+      "manager":data,
+      "booked":booked,
+      "apartment_data":apartment_data,
+      "booked1":booked1,
+      })
   else:
       return redirect("manager_login")
 
@@ -135,9 +142,9 @@ def update_apartment(request,apartment_no):
       return redirect('manager_login')
     if request.session.get('username',None) and request.session.get('type',None)=='customer':
         return redirect('user_dashboard')
-    room=Apartment.objects.get(apartment_no=apartment_no)
+    apartment=Apartment.objects.get(apartment_no=apartment_no)
     if request.method=="GET":
-        return render(request,"manager_dash/edit-apartment.html",{"room":room})
+        return render(request,"manager_dash/edit-apartment.html",{"apartment":apartment})
     else:
         price=request.POST['price']
         no_of_days_advance=request.POST['no_of_days_advance']
@@ -151,12 +158,12 @@ def update_apartment(request,apartment_no):
         if(not len(error)):
             manager=request.session['username']
             manager=RoomManager.objects.get(username=manager)
-            room.price=price
-            room.no_of_days_advance=no_of_days_advance
-            room.save()
+            apartment.price=price
+            apartment.no_of_days_advance=no_of_days_advance
+            apartment.save()
             messages.info(request,"Room Data Updated Successfully")
             return redirect('/manager/dashboard1/')
         else:
             print("========================================================")
-            return redirect('/user/add-room/update1/'+room.apartment_no,{"room":room})
+            return redirect('/user/add-room/update1/'+apartment.apartment_no,{"apartment":apartment})
 

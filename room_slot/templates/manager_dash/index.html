@@ -35,13 +35,13 @@
     <div class="col-md-6 text-center">
       <div class="bg-warning rounded py-3 my-2">
         <h4>Occupied Apartment Status</h4>
-        <h2>---</h2>  
+        <h2>{{apartment_data.count}}</h2>  
       </div>
     </div>
     <div class="col-md-6 text-center">
       <div class="bg-warning rounded py-3 my-2">
         <h4>Total Apartment to manage</h4>
-        <h2>---</h2>          
+        <h2>{{apartment_data.count}}</h2>          
       </div>
     </div>
     <!--Room Status-->
@@ -99,10 +99,10 @@
       </div>
     </div>
     <!--Apartment Status-->
-        <div class="col-md-12 my-4">
+      <div class="col-md-12 my-4">
       <div class="booking-history">
         <h1>Apartment Status</h1>
-        {% if room_data %}
+        {% if apartment_data %}
           <div class="table-wrap">
             <table class="table">
               <thead class="thead-dark">
@@ -118,16 +118,16 @@
               </thead>
 
               <tbody>
-                {% for room in room_data%}
+                {% for apartment in apartment_data%}
                 <tr>
-                  <td class="small" >{{room.room_no}}</td>
-                  <td class="small" >{{room.room_type}}</td>
-                  <td class="small" >&#x20b9; {{room.price}}</td>
-                  {% with data=room.booking_set.all.0 %}
+                  <td class="small" >{{apartment.apartment_no}}</td>
+                  <td class="small" >{{apartment.apartment_type}}</td>
+                  <td class="small" >&#x20b9; {{apartment.price}}</td>
+                  {% with data=apartment.booking_set.all.0 %}
                   <td class="small" ><a href="/user/dashboard/details/{{data.user_id.id}}/{{data.id}}">{{data.user_id.username}}</a></td>
                   <td class="small" >{{data.booked_on}}</th>
                   <td class="small" >
-                  {% if  room.is_available%}
+                  {% if  apartment.is_available%}
                   Available
                   {% else %}
                   {{data.start_day}} to {{data.end_day}}
@@ -135,8 +135,8 @@
                   </td>
                   <td class="small" >
                     <div class="btn-group" role="group" aria-label="Basic example">
-                      <a class="btn btn-primary btn-sm" href="{% url 'update-room' room.room_no %}">Edit</a>
-                      <a class="btn btn-danger text-light cancel-btn btn-sm" href="" id="{{room.id}}">Delete</a>
+                      <a class="btn btn-primary btn-sm" href="{% url 'update-room1' apartment.apartment_no %}">Edit</a>
+                      <a class="btn btn-danger text-light cancel-btn1 btn-sm" href="" id="{{apartment.id}}">Delete</a>
                     </div>
                   </td>
                 {% endwith %}
@@ -147,7 +147,7 @@
           </div>
         {% else %}
           <div class="jumbotron">
-            <p class="lead">You don't have any room added </p>
+            <p class="lead">You don't have any apartment added </p>
           </div>
         {% endif %}
       </div>
@@ -158,6 +158,25 @@
 <script>
   cancel_btn=document.querySelectorAll(".cancel-btn")
     cancel_btn.forEach((data)=>{
+    data.addEventListener("click",(e)=>{e.preventDefault()
+    id=e.target.id
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      console.log(xhttp.responseText)
+      document.getElementById("message").innerHTML = "<div class='chip green white-text'>"+xhttp.responseText+"</div>";
+      window.setTimeout(function(){location.reload()},1000)
+    }
+    };
+    xhttp.open("GET", "/delete-room/"+id, true);
+    xhttp.send();
+    })
+  })
+</script>
+<!--============================================================================================-->
+<script>
+  cancel_btn1=document.querySelectorAll(".cancel-btn1")
+    cancel_btn1.forEach((data)=>{
     data.addEventListener("click",(e)=>{e.preventDefault()
     id=e.target.id
     var xhttp = new XMLHttpRequest();
